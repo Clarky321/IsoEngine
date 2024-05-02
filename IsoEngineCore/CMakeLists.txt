@@ -6,13 +6,16 @@ set(ENGINE_PROJECT_NAME IsoEngineCore)
 
 # Список публичных заголовочных файлов
 set(ENGINE_PUBLIC_INCLUDES
-	includes/IsoEngineCore/Window.h
 	includes/IsoEngineCore/Log.h
+	
+	includes/IsoEngineCore/Window.h
+	includes/IsoEngineCore/Events.h
 )
 
 # Список приватных исходных файлов
 set(ENGINE_PRIVATE_SOURCES
 	src/IsoEngineCore/Window.cpp
+	src/IsoEngineCore/Events.cpp
 )
 
 # Общий список исходных файлов
@@ -41,9 +44,14 @@ target_compile_features(${ENGINE_PROJECT_NAME} PUBLIC cxx_std_17)
 # ------------------------------------------------------------------------------------- #
 
 # Добавление подмодуля GLAD и его сборка
-add_subdirectory(../external/glad ${CMAKE_CURRENT_BINARY_DIR}/glad)
+#add_subdirectory(../external/glad ${CMAKE_CURRENT_BINARY_DIR}/glad)
 # Линковка с библиотекой GLAD
-target_link_libraries(${ENGINE_PROJECT_NAME} PUBLIC glad)
+#target_link_libraries(${ENGINE_PROJECT_NAME} PUBLIC glad)
+
+# Добавление подмодуля GLEW и его сборка
+add_subdirectory(../external/glew ${CMAKE_CURRENT_BINARY_DIR}/glew)
+# Линковка с библиотекой GLEW
+target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE libglew_static)
 
 # Добавление подмодуля GLFW и его сборка
 add_subdirectory(../external/glfw ${CMAKE_CURRENT_BINARY_DIR}/glfw)
@@ -54,6 +62,11 @@ target_link_libraries(${ENGINE_PROJECT_NAME} PUBLIC glfw)
 add_subdirectory(../external/glm ${CMAKE_CURRENT_BINARY_DIR}/glm)
 # Линковка с библиотекой GLM
 target_link_libraries(${ENGINE_PROJECT_NAME} PUBLIC glm)
+
+# Добавление подмодуля SOIL и его сборка
+add_subdirectory(../external/soil ${CMAKE_CURRENT_BINARY_DIR}/soil)
+# Линковка с библиотекой SOIL
+target_link_libraries(${ENGINE_PROJECT_NAME} PUBLIC soil)
 
 # Добавление подмодуля SPDLOG и его сборка
 add_subdirectory(../external/spdlog ${CMAKE_CURRENT_BINARY_DIR}/spdlog)

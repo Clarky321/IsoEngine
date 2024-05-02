@@ -1,18 +1,18 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef WINDOW_WINDOW_H_
+#define WINDOW_WINDOW_H_
 
-#include <GLFW/glfw3.h>
+struct GLFWwindow;
 
 class Window {
+
 public:
-    Window(int width, int height, const char* title);
-    ~Window();
+	static GLFWwindow* window;
+	static int initialize(int width, int height, const char* title);
+	static void terminate();
 
-    bool shouldClose() const;
-    void update() const;
-
-private:
-    GLFWwindow* window;
+	static bool isShouldClose();
+	static void setShouldClose(bool flag);
+	static void swapBuffers();
 };
 
-#endif // WINDOW_H
+#endif // WINDOW_WINDOW_H_

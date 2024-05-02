@@ -1,40 +1,49 @@
-#include "IsoEngineCore/Window.h"
+#include <iostream>
 
-Window::Window(int width, int height, const char* title) {
-    // Инициализация GLFW
-    if (!glfwInit()) {
-        // Обработка ошибки инициализации
-        // Например, вывод сообщения в консоль или запись в журнал
-    }
+#define GLEW_STATIC
+#include <GL\glew.h>
+#include <GLFW\glfw3.h>
 
-    // Создание окна
-    window = glfwCreateWindow(width, height, title, nullptr, nullptr);
-    if (!window) {
-        // Обработка ошибки создания окна
-        // Например, вывод сообщения в консоль или запись в журнал
-        glfwTerminate();
-    }
+#include "IsoEngineCore\Window.h"
 
-    // Установка окна как текущего контекста OpenGL
-    glfwMakeContextCurrent(window);
+GLFWwindow* Window::window;
+
+int Window::initialize(int width, int height, const char* title) {
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+	window = glfwCreateWindow(width, height, title, nullptr, nullptr);
+	if (window == nullptr) {
+		std::cerr << "Failed to create GLFW Window" << std::endl;
+		glfwTerminate();
+		return -1;
+	}
+	glfwMakeContextCurrent(window);
+
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK) {
+		std::cerr << "Failed to initialize GLEW" << std::endl;
+		return -1;
+	}
+	glViewport(0, 0, width, height);
+	return 0;
 }
 
-Window::~Window() {
-    // Уничтожение окна
-    glfwDestroyWindow(window);
-
-    // Завершение работы GLFW
-    glfwTerminate();
+void Window::terminate() {
+	glfwTerminate();
 }
 
-bool Window::shouldClose() const {
-    return glfwWindowShouldClose(window);
+bool Window::isShouldClose() {
+	return glfwWindowShouldClose(window);
 }
 
-void Window::update() const {
-    // Обновление окна
-    glfwSwapBuffers(window);
+void Window::setShouldClose(bool flag) {
+	glfwSetWindowShouldClose(window, flag);
+}
 
-    // Проверка событий (например, нажатия клавиш, перемещения мыши)
-    glfwPollEvents();
+void Window::swapBuffers() {
+	glfwSwapBuffers(window);
 }

@@ -1,19 +1,37 @@
-#include <IsoEngineCore/Window.h>
+#include <iostream>
 
-int main()
-{
-    const int WIDTH = 800;
-    const int HEIGHT = 600;
-    const char* TITLE = "IsometricEngine";
+#define GLEW_STATIC
+#include <GL\glew.h>
 
-    // Создание экземпляра класса Window
-    Window window(WIDTH, HEIGHT, TITLE);
+//#include <SOIL\SOIL.h>
 
-    // Главный цикл приложения
-    while (!window.shouldClose()) {
-        // Обновление окна
-        window.update();
-    }
+#include <GLFW\glfw3.h>
 
-    return 0;
+#include "IsoEngineCore\Window.h"
+#include "IsoEngineCore\Events.h"
+
+int WIDTH = 1280;
+int HEIGHT = 720;
+
+int main() {
+	Window::initialize(WIDTH, HEIGHT, "Window 2.0");
+	Events::initialize();
+
+	glClearColor(0.6f, 0.62f, 0.65f, 1);
+
+	while (!Window::isShouldClose()) {
+		Events::pullEvents();
+		if (Events::jpressed(GLFW_KEY_ESCAPE)) {
+			Window::setShouldClose(true);
+		}
+		if (Events::jclicked(GLFW_MOUSE_BUTTON_1)) {
+			glClearColor(0.8f, 0.4f, 0.2f, 1);
+		}
+
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		Window::swapBuffers();
+	}
+	Window::terminate();
+	return 0;
 }
