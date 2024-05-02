@@ -7,11 +7,13 @@ set(ENGINE_PROJECT_NAME IsoEngineCore)
 # Список публичных заголовочных файлов
 set(ENGINE_PUBLIC_INCLUDES
 	includes/IsoEngineCore/test.h
+	includes/IsoEngineCore/Window.h
 )
 
 # Список приватных исходных файлов
 set(ENGINE_PRIVATE_SOURCES
 	src/IsoEngineCore/test.cpp
+	src/IsoEngineCore/Window.cpp
 )
 
 # Общий список исходных файлов
