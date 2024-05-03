@@ -10,12 +10,18 @@ set(ENGINE_PUBLIC_INCLUDES
 	
 	includes/IsoEngineCore/Window.h
 	includes/IsoEngineCore/Events.h
+	
+	includes/IsoEngineCore/Shader.h
+	includes/IsoEngineCore/Texture.h
 )
 
 # Список приватных исходных файлов
 set(ENGINE_PRIVATE_SOURCES
 	src/IsoEngineCore/Window.cpp
 	src/IsoEngineCore/Events.cpp
+	
+	src/IsoEngineCore/Shader.cpp
+	src/IsoEngineCore/Texture.cpp
 )
 
 # Общий список исходных файлов
@@ -51,7 +57,7 @@ target_compile_features(${ENGINE_PROJECT_NAME} PUBLIC cxx_std_17)
 # Добавление подмодуля GLEW и его сборка
 add_subdirectory(../external/glew ${CMAKE_CURRENT_BINARY_DIR}/glew)
 # Линковка с библиотекой GLEW
-target_link_libraries(${ENGINE_PROJECT_NAME} PRIVATE libglew_static)
+target_link_libraries(${ENGINE_PROJECT_NAME} PUBLIC libglew_static)
 
 # Добавление подмодуля GLFW и его сборка
 add_subdirectory(../external/glfw ${CMAKE_CURRENT_BINARY_DIR}/glfw)
